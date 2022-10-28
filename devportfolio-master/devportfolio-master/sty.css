@@ -1,0 +1,15 @@
+input-group span{
+  position: absolute;
+  bottom: 12px;
+  right: 17px;
+  font-size: 14px;
+  color: rgba(35, 227, 1, 0.89);
+}
+
+#submit-error{
+  position: absolute;
+  bottom: 12px;
+  right: 17px;
+  font-size: 14px;
+  color: rgba(1, 227, 137, 0.61);
+}
