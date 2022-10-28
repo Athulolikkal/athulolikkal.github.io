@@ -1,0 +1,194 @@
+
+
+body,html{
+  font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  background-color: black;
+}
+
+.head1{
+  color:white;
+  font-family:Noto sans,sans-serif,Arial, Helvetica;
+  font-weight: 900;
+  font-size: 3.62rem;
+}
+
+.head2{
+  color: rgb(255, 255, 255);
+  font-family:Noto sans,sans-serif,Arial, Helvetica;
+  font-weight: 800;
+  font-size: 2.62rem;
+ 
+}
+
+.head3{
+  color: white;
+  font-family:sans-serif,Arial, Helvetica;
+  font-weight:700;
+  font-size: 1.62rem;
+
+}
+
+.head4{
+  color: white;
+  font-size: 1.3rem;
+}
+
+.head5{
+  color: #737373;
+  font-size: 1rem;
+}
+/*----page 1---*/
+
+.page1{
+background-image:linear-gradient(180deg,rgba(0,0,0,.8) 0,transparent 60%,rgba(0,0,0,.8)),url('img/background.jpg');
+padding: 0;
+height: 49rem;
+}
+/*---head page 1----*/
+.logo{
+ height: 6rem;
+ min-width: 160px;
+}
+
+.lang{
+  height: 1.7rem;
+  background-color: black;
+  color: white;
+  border-width: 1px;
+  border-color: white;
+  font-size: 0.8rem;
+  height: 2rem;
+  width: 4.5rem;
+  margin-right: 2rem;
+}
+
+.signin{
+  background-color: #e50914;
+  color: white;
+  border-radius:5px ;
+  font-size: 0.8rem;
+  height: 2.5rem;
+  
+}
+
+/*---- page 1 content----*/
+.content-text{
+  text-align: center;
+  max-width: 500px;
+  margin-top: 9rem;
+  
+}
+
+.lineheight-head3{
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.content-search{
+  text-align: center;
+  vertical-align: baseline;
+  margin-top: 2rem;
+ 
+  
+}
+
+.search-button{
+  background-color: #e50914;
+  text-align: center;
+  color: white;
+  border: 0;
+  font-size: 2rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  
+}
+
+.search{
+  font-size: 1rem;
+  height: 4rem;
+  padding: 1.2rem 2rem 0.5rem 2rem;
+  width: 20rem;
+}
+
+/*----page 2---*/
+
+.page2{
+  background-color: black;
+  padding: 0;
+ 
+  }
+
+  .section1{
+    align-items: center;
+    text-align: center;
+    padding-top: 5rem;
+    border-top-width: 10px;
+    border-color: rgb(115, 115, 115);
+    border-top-style: solid;
+   
+    
+  }
+
+  .img1{
+    width: 30rem;
+  }
+  
+
+  .collapse-font{
+    font-size: 1.5rem;
+
+  }
+
+  .faq-container{
+    border-top-width: 10px;
+    border-color: rgb(115, 115, 115);
+    border-top-style: solid;
+    padding-top: 5rem;
+    
+  }
+
+  .faq-box{
+    padding-bottom: 2.5rem;
+  }
+
+  .searchbar2{
+    text-align: center;
+  vertical-align: baseline;
+  margin-top: 2rem;
+  margin-bottom: 5rem;
+  }
+
+  .footer-div1{
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-div2{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    
+
+  }
+  .footer-div3{
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .a-tag{
+    text-decoration: none;
+    color: #737373;
+  }
+  
+  .lang-bottom{
+ 
+  background-color: black;
+  color: white;
+  border-width: 1px;
+  border-color: white;
+  font-size: 0.8rem;
+  height: 3rem;
+  width:6.5rem;
+  
+ 
+  }
+
+  

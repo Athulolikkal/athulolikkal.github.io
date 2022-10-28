@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+ <form action="" name="myform" method="post" onsubmit="return validateform()">
+name : <input type="text" name="name" ><br>
+password : <input type="password" name="password"><br>
+<button type="submit">Register</button>
+
+</form>
+  
+
+  <script>
+    function validateform(){
+      var name=document.myform.name.value;
+      var password=document.myform .password.value;
+      if(name==null || name==""){
+        alert('Name not be blank')
+      }else if(password.lenght<=5||password==null||password==""){
+        alert('password must be atlest 5 char')
+      }
+    }
+  
+  </script>
+</body>
+</html>
