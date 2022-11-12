@@ -1,0 +1,23 @@
+body{
+    background-color: rgb(193, 184, 171);
+}
+
+.center-div{
+    padding-top: 10%;
+}
+
+form{
+    padding:0 3em ;
+}
+
+.w-50{
+    background-color: rgb(183, 188, 188);
+    border-radius: 2%;
+    border: 5px;;
+    border-color: aquamarine;
+
+}
+.btn.btn-danger{
+   
+    margin-left: 45%;
+}
