@@ -19,6 +19,7 @@ module.exports = {
                 if (user == null) {
                     userData.password = await bcrypt.hash(userData.password, 10)
                     userData.status = true;
+                    userData.wallet=0;
                     db.get().collection(collection.USER_COLLECTIONS).insertOne(userData).then((data) => {
 
                         resolve({ status: true })
@@ -199,27 +200,7 @@ module.exports = {
                 },
 
 
-                // {
-                //     $lookup:{
-
-                //         from:collection.PRODUCT_COLLECTIONS,
-                //        let:{productList:'$products'},
-
-                //        pipeline:[
-                //         {
-                //             //for match products id in the product array
-                //              $match:{
-                //                 $expr:{
-                //                     $in:['$_id','$$productList']
-                //                 }
-                //              }
-                //         }
-
-                //        ],
-                //        as:'cartItems'
-
-                //     }
-                // }
+               
             ]).toArray()
 
             //   console.log(cartItems[0].productDetails,"hlooo");
@@ -290,16 +271,18 @@ module.exports = {
 
 
     totalPrice: (userId) => {
-
+  console.log(userId,"userrrrrrr");
         return new Promise(async (resolve, reject) => {
 
-
+         
 
             let total = await db.get().collection(collection.CART_COLLECTIONS).aggregate([
 
                 {
-                    $match: { user: objectId(userId) }
 
+                    $match: { user:objectId(userId) }
+ 
+              
                 },
 
                 {
@@ -332,14 +315,14 @@ module.exports = {
                     $group: {
                         _id: null,
 
-                        total: { $sum: { $multiply: [{ $toInt: '$quantity' }, { $toInt: '$productDetails.price' }] } }
+                        total: { $sum: { $multiply: [{ $toInt: '$quantity' }, { $toInt: '$productDetails.offerprice' }] } }
 
                     }
 
 
                 }
             ]).toArray()
-            //  console.log(total);
+             console.log(total);
             resolve(total[0]?.total)
 
         })
@@ -488,7 +471,7 @@ module.exports = {
                     address: userDetails.address
                 }
             }).then((response) => {
-                console.log('upadted')
+                console.log('updated')
                 resolve(response)
             })
         })
@@ -536,6 +519,140 @@ module.exports = {
             resolve()
         })
     },
+
+    passwordVerify:(userDetails)=>{
+      console.log(userDetails.userId,userDetails.password,"userrrrrrrr"); 
+        return new Promise(async(resolve,reject)=>{
+            let user=await db.get().collection(collection.USER_COLLECTIONS).findOne({_id:objectId(userDetails.userId)})
+
+       if(user){
+         
+        await bcrypt.compare(userDetails.password, user.password).then((status)=>{
+           
+        if (status){
+            console.log('password correct');
+            // response.user=user
+            // response.status=true
+            resolve({status:true})
+       console.log(status);
+        
+    }else{
+            resolve({status:false})
+       
+       console.log('password wrong');
+        }
+        })
+       
+    }else{
+        resolve({status:false})
+    console.log(response,"no user");
+    }
+       
+        })
+    },
+
+
+
+    changePassword:(passwordDetails)=>{
+        console.log(passwordDetails.newpassword,passwordDetails.repassword,"newpasswooord");
+    return new Promise(async(resolve,reject)=>{
+       
+        if(passwordDetails.newpassword===passwordDetails.repassword){
+         
+             passwordDetails.newpassword= await bcrypt.hash(passwordDetails.newpassword,10)
+       
+             db.get().collection(collection.USER_COLLECTIONS).updateOne({_id:objectId(passwordDetails.userId)},{$set:{
+                password:passwordDetails.newpassword
+             }}).then((status)=>{
+                resolve({status:true})
+             })
+        }else{
+            resolve({status:false})
+        }
+        
+    })
+    },
+    verifyCoupon:(couponname,total)=>{
+      
+      try{
+
+        return new Promise(async(resolve,reject)=>{
+            couponname.couponCode=couponname.couponCode.toUpperCase();
+            console.log(couponname.couponCode,'uppercasecode');
+    
+    let couponAvailable=await db.get().collection(collection.COUPON_COLLECTION).findOne({couponName:couponname.couponCode,
+        couponExpDate:{$gte:new Date()}})
+    
+  console.log(couponAvailable,'couponnnnnn');
+   
+  if(couponAvailable!==null){
+        console.log('coupon is hereeee');
+       
+        let discountamount=(total*couponAvailable.couponPercentage)/100
+        let discountAmount= Math.trunc(discountamount)
+        console.log(discountAmount,'couponofferrrr');
+   if(discountAmount>=couponAvailable.maxamount){
+    var totalAmount=total-couponAvailable.maxamount
+    console.log(totalAmount,'totalcouponamt');
+    resolve(totalAmount)
+}
+   else{
+   var totalAmount=total-discountAmount
+   console.log(totalAmount,'totalamountofproduct');
+   resolve(totalAmount)
+
+}
+   
+}else{
+        console.log('no valid coupon');
+       var totalAmount=0
+        resolve(totalAmount)
+    }
+  })
+}catch{
+
+  resolve({status:false})
+}
+    
+    },
+
+    returnOrder:(orderId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.ORDER_COLLECTIONS).updateOne({_id:objectId(orderId)},[{ '$set': { status: 'order-return-pending' } }]).then((response)=>{
+                resolve(response)
+            })
+        })
+    },
+    getCategoryView:()=>{
+        return new Promise((resolve,reject)=>{
+            let category=db.get().collection(collection.CATEGORY_COLLECTIONS).find().toArray();
+            resolve(category)
+        })
+    },   
+    menView:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let men=await  db.get().collection(collection.PRODUCT_COLLECTIONS).find({category:'MEN'}).toArray();
+           console.log(men,'meeeenn');
+            resolve(men)
+        })
+    },
+    womenView:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let women=await  db.get().collection(collection.PRODUCT_COLLECTIONS).find({category:'WOMEN'}).toArray();
+           console.log(women,'women');
+            resolve(women)
+        })
+    },
+    kidsView:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let kids=await  db.get().collection(collection.PRODUCT_COLLECTIONS).find({category:'KIDS'}).toArray();
+           console.log(kids,'kids');
+            resolve(kids)
+        })
+    },
+        
+
+   
 
 
 

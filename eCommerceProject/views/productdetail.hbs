@@ -19,11 +19,14 @@
                             </div>
                             <div class="mt-4 mb-3"> <span class="text-uppercase text-muted brand">{{response.category}}</span>
                                 <h5 class="text-uppercase">{{response.name}}</h5>
-                                <div class="price d-flex flex-row align-items-center"> <span class="act-price">{{response.price}}</span>
+                               <p class="text-danger">{{response.currentoffer}}% <small>offer</small></p>
+                               
+                                <div class="price d-flex flex-row align-items-center"> <span class="act-price">{{response.offerprice}}</span>
                                     <div class="ml-2"> <small class="dis-price">{{response.price}}</small>  </div>
                                 </div>
                             </div>
                             <p class="about">{{response.description}}</p>
+                            
                             <div class="sizes mt-5">
                                 <h6 class="text-uppercase">Size</h6> <label class="radio"> <input type="radio" name="size" value="S" checked> <span>S</span> </label> <label class="radio"> <input type="radio" name="size" value="M"> <span>M</span> </label> <label class="radio"> <input type="radio" name="size" value="L"> <span>L</span> </label> <label class="radio"> <input type="radio" name="size" value="XL"> <span>XL</span> </label> <label class="radio"> <input type="radio" name="size" value="XXL"> <span>XXL</span> </label>
                             </div>

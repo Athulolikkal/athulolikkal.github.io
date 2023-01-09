@@ -18,19 +18,19 @@
              
               <li class="list-group-item d-flex  align-items-center p-3 active">
                 <i class="fab fa-github fa-lg" style="color: #333333;"></i>
-        <a href="" class="text-decoration-none text-dark"><p class="mb-0"><span class="icon"><ion-icon name="person-outline"></ion-icon>&nbsp  User info </ion-icon></span></p></a>             
+        <a href="/userprofile/{{userDetails._id}}" class="text-decoration-none text-dark"><p class="mb-0"><span class="icon"><ion-icon name="person-outline"></ion-icon>&nbsp  User info </ion-icon></span></p></a>             
               </li>
-              <li class="list-group-item d-flex  align-items-center p-3">
+              {{!-- <li class="list-group-item d-flex  align-items-center p-3">
                 <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
-        <a href="" class="text-decoration-none text-dark"><p class="mb-0"><span class="icon"><ion-icon name="home-outline"></ion-icon>&nbsp  Address </ion-icon></span></p></a>
-              </li>
+        <a href="" class="text-decoration-none text-dark"><p class="mb-0"><span class="icon"><ion-icon name="home-outline"></ion-icon>&nbsp  Address Management </ion-icon></span></p></a>
+              </li> --}}
               <li class="list-group-item d-flex  align-items-center p-3">
                 <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
-        <a href="" class="text-decoration-none text-dark"><p class="mb-0"><span class="icon"><ion-icon name="wallet-outline"></ion-icon>&nbsp  Wallet</ion-icon></span></p></a>
+        <a href="/userwallet/{{userDetails._id}}" class="text-decoration-none text-dark"><p class="mb-0"><span class="icon"><ion-icon name="wallet-outline"></ion-icon>&nbsp  Wallet</ion-icon></span></p></a>
               </li>
               <li class="list-group-item d-flex  align-items-center p-3">
                 <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
-        <a href="" class="text-decoration-none text-dark"><p class="mb-0"><span class="icon"><ion-icon name="key-outline"></ion-icon>&nbsp  Change Password </ion-icon></span></p></a>
+        <a href="/changepassword/{{userDetails._id}}" class="text-decoration-none text-dark"><p class="mb-0"><span class="icon"><ion-icon name="key-outline"></ion-icon>&nbsp  Change Password </ion-icon></span></p></a>
               </li>
             </ul>
           </div>
@@ -39,7 +39,7 @@
       
       
       
-
+    
       <div class="col-lg-8 mt-5 ">
         <div class="card mb-4" id="userInfo">
           <div class="card-body">
@@ -97,6 +97,8 @@
 {{#if userDetails}}
 
        <form style="display:none" id="edituser" action="post">
+       
+       <div><h3 class="fw-bold">edit user info</h3></div>
         <div class="card-body card bg-white p-3">
             <div class="row">
               <div class="col-sm-3">
@@ -105,7 +107,7 @@
                 <p class="mb-0"> Name</p>
               </div>
               <div class="col-sm-9">
-             <input class="form-control" type="text" name="fname"  value="{{userDetails.fname}}">
+             <input class="form-control" type="text" name="fname"  value="{{userDetails.fname}}" required="">
              
               </div>
             </div>
@@ -115,7 +117,7 @@
                 <p class="mb-0">Email</p>
               </div>
               <div class="col-sm-9">
-               <input class="form-control" type="text" name="email"  value="{{userDetails.email}}">
+               <input class="form-control" type="text" name="email"  value="{{userDetails.email}}" required="">
               </div>
             </div>
             <hr>
@@ -124,7 +126,7 @@
                 <p class="mb-0">Phone</p>
               </div>
               <div class="col-sm-9">
-               <input class="form-control" type="text" name="phonenumber"  value="{{userDetails.phonenumber}}">
+               <input class="form-control" type="text" name="phonenumber"  value="{{userDetails.phonenumber}}" required="">
               </div>
             </div>
             
@@ -134,7 +136,7 @@
                 <p class="mb-0">Address</p>
               </div>
               <div class="col-sm-9">
-               <input class="form-control" type="text" name="address"  value="{{userDetails.address}}">
+               <input class="form-control" type="text" name="address"  value="{{userDetails.address}}" required="">
               </div>
            
               <input type="text" name="userId" id="" value="{{userDetails._id}}" hidden>
@@ -173,7 +175,7 @@ function editUser(){
 
 
 $('#edituser').submit((e)=>{
-   e.preventDefault() 
+   e.preventDefault();
    $.ajax({
 
 url:'/user-edit-profile',

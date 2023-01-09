@@ -14,3 +14,9 @@ const section = document.querySelector(".hide-section");
                   }, 1000);
                });
             };
+
+
+  
+
+  
+  

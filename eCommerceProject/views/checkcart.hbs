@@ -9,12 +9,15 @@
       <ul class="list-group mb-3">
         <li class="list-group-item d-flex justify-content-between lh-condensed">
           <div>
-            <h6 class="my-0">Product name</h6>
-            <small class="text-muted">Brief description</small>
+            <h6 class="my-0">Product</h6>
+            <small class="text-muted">total amount is</small><br>
+            <small class=" text-success fw-bold" id="couponadded" style="display: none;">couponadded</small>
           </div>
           <span class="text-muted">{{totalAmount}}</span>
         </li>
+        {{!-- <p class="text-danger" id="couponadded">coupon activated</p> --}}
         <li class="list-group-item d-flex justify-content-between lh-condensed">
+         
           <div>
             {{!-- <h6 class="my-0">Second product</h6>
             <small class="text-muted">Brief description</small>
@@ -35,9 +38,12 @@
           </div>
           <span class="text-success">-$5</span>
         </li> --}}
-        <li class="list-group-item d-flex justify-content-between">
-          <span>Total </span>
+        <li class="list-group-item d-flex justify-content-between" id="totalprice">
+          <span >Total </span>
+         
+          
           <strong>{{totalAmount}}</strong>
+       
         </li>
       </ul>
 
@@ -49,6 +55,57 @@
           </div>
         </div>
       </form> --}}
+    
+    <div>
+      {{!-- <button class="btn btn-warning">apply coupon</button> --}}
+
+      <button type="button" id="applycoupon" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#couponModal">
+ apply coupon
+</button>
+
+ <a href="/cancelcoupon"><button type="button" id="cancelcoupon" class="btn btn-warning" style="display:none;"  >
+ cancel coupon
+</button></a>
+   
+   
+    </div>
+   
+{{!-- modal-coupon-starts --}}
+
+<div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h5 class="modal-title ml-5" id="exampleModalLabel">Coupon Apply</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        
+      </div>
+      <div><p class="text-center text-danger fw-bold" id="errcoupon" style="display: none;">unvalid coupon code</p></div>
+      
+      <form action="/applyCoupon-offer" id="applyCoupon" method="post">
+      
+        {{!-- <p class="text-center text-success fw-bold" id="successcoupon">coun redeemed successfully</p> --}}
+        
+        
+         <div class="modal-body">
+        <label >enter the coupon code :</label>
+        <input type="text" for="coupon" name="couponCode">
+        
+     
+      </div>
+
+     
+     
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Apply</button>
+      </div>
+     </form>
+    </div>
+  </div>
+</div>
+   
+{{!-- coupon modal ends --}}
     </div>
 
 
@@ -56,6 +113,7 @@
       <h4 class="mb-3">Billing address</h4>
       <form class="needs-validation" action="" id="checkout-form">
         <div class="row">
+          
           <div class=" mb-3">
             <label for="firstName">Name</label>
             <input type="text" class="form-control" name="name" id="firstName" placeholder="" value="" required>
@@ -83,6 +141,9 @@
             </div>
           </div>
         </div>
+    
+        {{!-- totalamount --}}
+        <input type="text" class="form-control" style="display: none;" id="actualCost" name="totalprice" value={{totalAmount}}>
 
         <div class="mb-3">
           <label for="email">Email <span class="text-muted">(Optional)</span></label>
@@ -207,6 +268,44 @@
       }
     })
   })
+
+$('#applyCoupon').submit((e)=>{
+  e.preventDefault()
+  $.ajax({
+    url:'/applyCoupon-offer',
+    method:'post',
+    data:$('#applyCoupon').serialize(),
+    success:(totalamount)=>{
+     
+     if(totalamount>0){
+        
+        console.log(totalamount,'successs')
+   //document.getElementById('totalpricespan').innerHTML='total'
+    let totalprice=document.getElementById('totalprice')
+      //totalprice.innerHTML="total:"
+     document.getElementById('actualCost').value=totalamount
+      totalprice.innerHTML=totalamount
+      totalprice.style.color='red';
+     totalprice.style.fontSize = "x-large";
+     totalprice.style.fontWeight = "900";
+     document.getElementById('couponadded').style.display=''  
+     document.getElementById('applycoupon').style.display='none'
+     document.getElementById('cancelcoupon').style.display=''
+     }else{
+
+    console.log(totalamount,'false')
+     document.getElementById('errcoupon').style.display=''
+    
+     setTimeout(() => {
+  window.location.reload();
+          }, 500);
+
+     
+     }
+
+    }
+  })
+})
 
 
 

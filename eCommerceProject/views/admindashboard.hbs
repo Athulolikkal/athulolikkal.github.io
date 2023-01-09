@@ -65,7 +65,7 @@
                   
                    <li>
                     <span class="top_curve"></span>
-                   <a href="#" class="text-decoration-none">
+                   <a href="/admin/adminreport" class="text-decoration-none">
                     <span class="icon"><ion-icon name="newspaper-outline"></ion-icon></ion-icon></span>
                     <span class="item">Report</span>
                    </a>
@@ -74,13 +74,29 @@
                    
                    <li>
                     <span class="top_curve"></span>
-                   <a href="#" class="text-decoration-none">
+                   <a href="/admin/admincoupon" class="text-decoration-none">
                     <span class="icon"><ion-icon name="cash-outline"></ion-icon></span>
                     <span class="item">Coupon</span>
                    </a>
                     <span class="bottom_curve"></span>
                    </li> 
                    
+                  
+                   <li>
+                    <span class="top_curve"></span>
+                   <a href="/admin/adminoffer" class="text-decoration-none">
+                    <span class="icon"><i class="bi bi-clock"></i></span>
+                    <span class="item p-1 mt-2">Offer</span>
+                   </a>
+                    <span class="bottom_curve"></span>
+                   </li> 
+                  
+                  
+                  
+                  
+                  
+                  
+                  
                    <li>
                     <span class="top_curve"></span>
                    <a href="/admin/adminlogout" class="text-decoration-none">
@@ -97,28 +113,48 @@
 
 
 
+
+
+
+
+
                 <div class="row" >
-				<div class="col-12 col-md-6 col-lg-4">
+				<div class="col-sm-6 col-md-6 col-lg-4">
 					<div class="card text-center " >
 						<div class="card-body" >
-							<P>100</P>
+							<h3 class="mt-4 fw-bold">Total Earnings</h3>
+              <h5 class="fw-bold ">{{totalAmount}}</h5>
 						</div>
 					</div>
 				</div>
-				<div class="col-12 col-md-6 col-lg-4">
+				
+        <div class="col-sm-6 col-md-6 col-lg-4">
+					<div class="card text-center">
+						<div class="card-body">
+							
+						<h3 class="mt-4 fw-bold">Total Orders</h3>
+              <h5 class="fw-bold ">{{totalDetails.totalOrders}}</h5>
+            
+            </div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-6 col-lg-4">
+					<div class="card text-center">
+						<div class="card-body">
+							
+					<h3 class="mt-4 fw-bold">Total Users</h3>
+              <h5 class="fw-bold ">{{totalUsers}}</h5>
+            </div>
+					</div>
+				</div>
+
+        {{!-- <div class="col-sm-6 col-md-6 col-lg-3">
 					<div class="card text-center">
 						<div class="card-body">
 							
 						</div>
 					</div>
-				</div>
-				<div class="col-12 col-md-6 col-lg-4">
-					<div class="card text-center">
-						<div class="card-body">
-							
-						</div>
-					</div>
-				</div>
+				</div> --}}
 				
 			</div>
 
@@ -130,7 +166,14 @@
 
 
 
-
+{{!-- <div class="col-xl-6 d-flex justify-content-left pt-5 pb-5 ">
+    <div class="btn-group btn-group-toggle w-25 sales">
+        <button id="daily" class="btn btn-primary " onclick="histogram(1,'daily')">Daily</button>
+        <button id="weekly" class="btn btn-primary " onclick="histogram(7,'weekly')">Weekly</button>
+        <button id="monthly" class="btn btn-primary " onclick="histogram(30,'monthly')">Monthly</button>
+        <button id="yearly" class="btn btn-primary active " onclick="histogram(365,'yearly')">Yearly</button>
+    </div>
+</div> --}}
 
 
 
@@ -138,11 +181,12 @@
 
 
     <div class="p-5">
+         
          <div class="row">
-          <div class="col-md-6">
+         <div class="col-md-6">
             <div class="card mb-4 mb-md-0">
               <div class="card-body">
-                <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status
+                <p class="mb-4"><span class="text-primary font-italic me-1"></span> Order Status
                 </p>
             <canvas id="myChart"></canvas>
 
@@ -154,7 +198,7 @@
           <div class="col-md-6 " >
             <div class="card mb-4 mb-md-0">
               <div class="card-body">
-                <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status
+                <p class="mb-4"><span class="text-primary font-italic me-1"></span>payment methods
                 </p>
                 <canvas id="pieChart" style="width:100%;height:auto"></canvas>
 
@@ -207,16 +251,38 @@
 
 
 <script>
-  const ctx = document.getElementById('myChart');
+  
+   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ const ctx = document.getElementById('myChart');
 
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      labels: ['Delivered', 'Shipped', 'Placed', 'Cancelled','pending' ],
       datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1
+        label: 'order status',
+        data: [{{totalDetails.deliverdOrder}}, {{totalDetails.shippedOrder}}, {{totalDetails.placedOrder}}, {{totalDetails.cancelledOrder}},{{totalDetails.pendingOrder}}],
+        borderWidth: 1,
       }]
     },
     options: {
@@ -229,12 +295,11 @@
   });
 
 
- var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
-var yValues = [55, 49, 44, 24, 15];
+ var xValues = ["Cash on Delivery", "Onlinepayment",];
+var yValues = [{{totalPaymentDetails.totalCod}},{{totalPaymentDetails.totalOnlinepayment}}];
 var barColors = [
-  "#b91d47",
-  "#00aba9",
-  "#2b5797",
+  
+
   "#e8c3b9",
   "#1e7145"
 ];

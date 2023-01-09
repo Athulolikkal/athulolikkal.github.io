@@ -176,10 +176,146 @@ shippingOrder:(orderId)=>{
 
 deliverdOrder:(orderId)=>{
     return new Promise((resolve,reject)=>{
+       
+       let deliverdDate=new Date()
+      let displaydeliverdDate= deliverdDate.toDateString()
+   
+       //   await db.get().collection(collection.ORDER_COLLECTIONS).findOne({_id:objectId(orderId)}).insertOne(deliverdDate)
+        db.get().collection(collection.ORDER_COLLECTIONS).updateOne({_id:objectId(orderId)},[{'$set':{status:'deliverd',deliverdDate:deliverdDate,displaydeliverdDate:displaydeliverdDate}}]).then((response)=>{
+            resolve(response)
+        })
+      resolve(response)
+    })
+},
+
+
+totalAmountDeliverd:()=>{
+    return new Promise(async(resolve,reject)=>{
+let amount= await db.get().collection(collection.ORDER_COLLECTIONS).aggregate(
+
+       
+            [
+                {
+                  '$match': {
+                    'status': 'deliverd'
+                  }
+                }, {
+                  '$group': {
+                    '_id': 'null', 
+                    'totalAmount': {
+                      '$sum': '$totalAmount'
+                    }
+                  }
+                }
+              ]
+
+
+
+        ).toArray()
+      console.log(amount,"amounttttttttttttttttttt");
+        resolve(amount[0]?.totalAmount)
+    })
+},
+
+totalDashboardView:()=>{
+    return new Promise (async(resolve,reject)=>{
+       let data={};
+       data.deliverdOrder=await db.get().collection(collection.ORDER_COLLECTIONS).find({status:"deliverd"}).count()
+       data.shippedOrder=await db.get().collection(collection.ORDER_COLLECTIONS).find({status:"shipped"}).count()
+       data.cancelledOrder=await db.get().collection(collection.ORDER_COLLECTIONS).find({status:"cancelled"}).count()
+       data.placedOrder=await db.get().collection(collection.ORDER_COLLECTIONS).find({status:"placed"}).count()
+       data.pendingOrder=await db.get().collection(collection.ORDER_COLLECTIONS).find({status:"pending"}).count()
+       data.totalOrders=parseInt(data.deliverdOrder+data.shippedOrder+data.cancelledOrder+data.pendingOrder+data.placedOrder)
+        console.log(data.totalOrders,"totalOrderssssss");
+       console.log(data,"deliverdorderrrrr");
+       resolve(data)
+    })
+},
+
+totalpaymentView:()=>{
+    return new Promise (async(resolve,reject)=>{
+        let payment={};
+        payment.totalCod=await db.get().collection(collection.ORDER_COLLECTIONS).find({paymentMethod:"COD"}).count()
+        payment.totalOnlinepayment=await db.get().collection(collection.ORDER_COLLECTIONS).find({paymentMethod:"paypal"}).count()
+        console.log(payment,"hhgghhhhhhhh");
+        resolve(payment)
+    })
+},
+
+totalUsers:()=>{
+
+    return new Promise (async(resolve,reject)=>{
+       
+        usersTotal=await db.get().collection(collection.USER_COLLECTIONS).find().count()
+        console.log(usersTotal,"usersssssss");
+        resolve(usersTotal)
+    })
+
+
+
+
+
+},
+
+viewDeliverdOrders:()=>{
+    return new Promise(async(resolve,reject)=>{
+       let deliverdItems=await db.get().collection(collection.ORDER_COLLECTIONS).find({status:'deliverd'}).toArray()
+       console.log(deliverdItems,"itemssss");
+        resolve(deliverdItems)
+    })
+},
+cancelReturn:(orderId)=>{
+
+    return new Promise((resolve,reject)=>{
         db.get().collection(collection.ORDER_COLLECTIONS).updateOne({_id:objectId(orderId)},[{'$set':{status:'deliverd'}}]).then((response)=>{
             resolve(response)
         })
       resolve(response)
     })
+
+
+},
+returnAccept:(orderId)=>{
+
+    return new Promise((resolve,reject)=>{
+        db.get().collection(collection.ORDER_COLLECTIONS).updateOne({_id:objectId(orderId)},[{'$set':{status:'returned'}}]).then((response)=>{
+            resolve(response)
+        })
+      resolve(response)
+    })
+
+
+},
+retrunOrderDetails:(orderId)=>{
+
+    return new Promise(async(resolve,reject)=>{
+     let order=await db.get().collection(collection.ORDER_COLLECTIONS).findOne({_id:objectId(orderId)})
+     console.log(order,'retrunOrderDetails');
+     resolve(order)
+   
+    })
+},
+returnUserDetails:(userId)=>{
+    console.log(userId,"userId")
+return new Promise(async(resolve,reject)=>{
+    let user=await db.get().collection(collection.USER_COLLECTIONS).findOne({_id:objectId(userId)})
+     console.log(user,'userdetailsss');
+     resolve(user)
+})
+
+},
+wallet:(userId,returnAmount)=>{
+    console.log(userId,returnAmount,'userId,returnAmount');
+    return new Promise((resolve,reject)=>{
+        db.get().collection(collection.USER_COLLECTIONS).updateOne({_id:objectId(userId)},[{'$set':{wallet:returnAmount}}]).then((response)=>{
+            console.log(response,'response');
+            resolve(response)
+        })
+    })
 }
+
+
+
+
+
 }

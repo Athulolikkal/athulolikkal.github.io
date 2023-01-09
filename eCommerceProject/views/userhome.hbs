@@ -83,7 +83,26 @@
 		<div class="container">
 			<div class="row">
 				
-				
+
+ {{!-- <div class="dropdown">
+                  <button class="btn btn-secondary  dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    All items
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"> --}}
+                    {{!-- <li><a class="dropdown-item" href="/admin/cancel-userorder/{{this._id}}">cancel</a></li> --}}
+                   {{!-- {{#each categoryList}}
+				    <li> <button onclick="cateProducts('{{this._id}}')" class="btn btn-light">{{this.name}}</button> </li>
+                    {{/each}}
+                  
+				  </ul>
+                </div>
+           --}}
+
+
+	
+
+
 				<div class="col-md-12">
 					<div class="section-header text-center pb-5">
 						<h2>Shope now!!</h2>
@@ -91,16 +110,56 @@
 						adipisicing elit. Non, quo.</p>
 					</div>
 				</div>
+		
+		  
+         {{!-- <a href="/categoryitems/{{this._id}}"><option name="category">{{this.name}}</option></a>  --}}
+
+		
+	<div class="col-xl-6 d-flex justify-content-center pt-3 pb-3 p-2 " >
+   
+    <p class="text-warning mt-2 fw-bold">categorys wise selection:&nbsp;&nbsp;</p>
+	<div>
+		
+		<a href="/mencategory"><button id="men" class="btn btn-secondary ">Men</button></a>  
+      <a href="/womencategory"><button id="women" class="btn btn-secondary " >Women</button></a>
+	   <a  href="/kidscategory"><button id="kids" class="btn btn-secondary ">Kids</button></a> 
+	  </div>
+	   
+      
+    
+    </div>
+		  
+		  
+		  
+		  
+		  
+        
+			 
+			
 			</div>
-			<div class="row">
+			<div
+			
+			
+			
+			
+			
+			
+			 class="row">
 				{{#each response}}
 				
 				<div class="col-12 col-md-12 col-lg-4 p-3">
 					<div class="card text-light text-center bg-white pb-2">
 						<div class="card-body text-dark">
-						 	<div class="img-area mb-4"><a href="/productdetail/{{this._id}}"><img alt="" class="img-fluid" src="{{this.image.[0]}}"></a></div>
+						 	<div class="bg-secondary rounded text-white position-absolute start-0 top-0 ml-2 m-4 py-1 px-3">
+								<h5 >{{this.currentoffer}}% <span class="text-warning">off</span></h5>
+							</div>
+							
+							<div class="img-area mb-4"><a href="/productdetail/{{this._id}}"><img alt="" class="img-fluid" src="{{this.image.[0]}}"></a></div>
 							<a href="/productdetail/{{this._id}}" class="text-decoration-none text-black"><h3 class="card-title">{{this.name}}</h3></a>
-							<h5 class="lead ">{{this.description}}</h5><button class="btn bg-warning text-dark">₹{{this.price}}</button>
+							<h5 class="lead ">{{this.description}}</h5>
+							<button class="btn bg-warning text-dark text-light" >₹{{this.offerprice}}&nbsp<span style="text-decoration:line-through;"> ₹{{this.price}}</span></button>
+
+							 
 						</div>
 					</div>
 				</div>

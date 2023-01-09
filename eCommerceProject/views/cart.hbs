@@ -29,14 +29,14 @@
                     <h5 class="text-primary">{{this.productDetails.name}}</h5>
                     <h6 style="color: #9e9e9e;">Category:{{this.productDetails.category}} </h6>
                     <div class="d-flex align-items-center">
-                      <p class="fw-bold mb-0 me-5 pe-3">{{this.productDetails.price}}</p>
+                      <p class="fw-bold mb-0 me-5 pe-3">{{this.productDetails.offerprice}}</p>
 
                       <div class="w-25 mt-3">
                         <button class="cart-item-count mr-3 btn btn-light"
-                          onclick="changeQuantity('{{this._id}}','{{this.productDetails._id}}','{{../user}}',-1)">-</button>
+                          onclick="changeQuantity('{{this._id}}','{{this.productDetails._id}}','{{../userId}}',-1)">-</button>
                         <span id="{{this.productDetails._id}}">{{this.quantity}}</span>
                         <button class="cart-item-count ml-3 btn btn-light "
-                          onclick="changeQuantity('{{this._id}}','{{this.productDetails._id}}','{{../user}}',1)">+</button>
+                          onclick="changeQuantity('{{this._id}}','{{this.productDetails._id}}','{{../userId}}',1)">+</button>
 
                         <button onclick="removeItem('{{this.productDetails._id}}')"
                           class="btn btn-danger text-uppercase mr-2 px-4">Remove</button>
@@ -365,12 +365,13 @@
 function changeQuantity(cartId, productId, userId, count) {
     //taking the value of quantity by id
     let quantity = parseInt(document.getElementById(productId).innerHTML)
+      console.log(userId,'ghhhjjkkk')
 
     $.ajax({
 
       url: '/change-product-quantity',
       data: {
-        user: userId,
+        user:userId,
         cart: cartId,
         product: productId,
         count: count,

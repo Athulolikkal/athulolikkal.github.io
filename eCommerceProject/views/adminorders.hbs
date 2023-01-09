@@ -65,7 +65,7 @@
 
           <li>
             <span class="top_curve"></span>
-            <a href="#" class="text-decoration-none">
+            <a href="/admin/adminreport" class="text-decoration-none">
               <span class="icon"><ion-icon name="newspaper-outline"></ion-icon></ion-icon></span>
               <span class="item">Report</span>
             </a>
@@ -74,13 +74,28 @@
 
           <li>
             <span class="top_curve"></span>
-            <a href="#" class="text-decoration-none">
+            <a href="/admin/admincoupon" class="text-decoration-none">
               <span class="icon"><ion-icon name="cash-outline"></ion-icon></span>
               <span class="item">Coupon</span>
             </a>
             <span class="bottom_curve"></span>
           </li>
 
+          <li>
+                    <span class="top_curve"></span>
+                   <a href="/admin/adminoffer" class="text-decoration-none">
+                    <span class="icon"><i class="bi bi-clock"></i></span>
+                    <span class="item p-1 mt-2">Offer</span>
+                   </a>
+                    <span class="bottom_curve"></span>
+                   </li> 
+         
+         
+         
+         
+         
+         
+         
           <li>
             <span class="top_curve"></span>
             <a href="/admin/adminlogout" class="text-decoration-none">
@@ -132,10 +147,32 @@
 
                 <a href="#" class="btn btn-danger ">cancelled</a>
 
-                {{else}}
+                {{!-- {{else}} --}}
                 {{!-- <button onclick="orderCancel('{{this._id}}')" class="btn btn-warning ">Cancel</button> --}}
 
-                <div class="dropdown">
+                {{!-- <div class="dropdown">
+                  <button class="btn btn-secondary  dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    {{this.status}}
+                  </button> --}}
+                  {{!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"> --}}
+                    {{!-- <li><a class="dropdown-item" href="/admin/cancel-userorder/{{this._id}}">cancel</a></li> --}}
+                    {{!-- <li> <button onclick="orderCancel('{{this._id}}')" class="btn btn-light">Cancel</button> </li>
+                    <li><button onclick="orderShipped('{{this._id}}')" class="btn btn-light ">Shipped</button></li>
+                    <li><button onclick="orderDeliverd('{{this._id}}')" class="btn btn-light ">Deliverd</button></li>
+                  </ul>
+                </div> --}}
+
+
+
+
+                {{/ifCheck}}
+
+
+             
+             {{#ifCheck this.status "placed"}}
+
+                 <div class="dropdown">
                   <button class="btn btn-secondary  dropdown-toggle" type="button" id="dropdownMenuButton1"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     {{this.status}}
@@ -148,12 +185,75 @@
                   </ul>
                 </div>
 
+                {{/ifCheck}}
 
+                {{#ifCheck this.status "pending"}}
 
+                 <div class="dropdown">
+                  <button class="btn btn-secondary  dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    {{this.status}}
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    {{!-- <li><a class="dropdown-item" href="/admin/cancel-userorder/{{this._id}}">cancel</a></li> --}}
+                    <li> <button onclick="orderCancel('{{this._id}}')" class="btn btn-light">Cancel</button> </li>
+                    <li><button onclick="orderShipped('{{this._id}}')" class="btn btn-light ">Shipped</button></li>
+                    <li><button onclick="orderDeliverd('{{this._id}}')" class="btn btn-light ">Deliverd</button></li>
+                  </ul>
+                </div>
+
+                {{/ifCheck}}
+             
+               {{#ifCheck this.status "shipped"}}
+
+                 <div class="dropdown">
+                  <button class="btn btn-secondary  dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    {{this.status}}
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    {{!-- <li><a class="dropdown-item" href="/admin/cancel-userorder/{{this._id}}">cancel</a></li> --}}
+                    <li> <button onclick="orderCancel('{{this._id}}')" class="btn btn-light">Cancel</button> </li>
+                    <li><button onclick="orderShipped('{{this._id}}')" class="btn btn-light ">Shipped</button></li>
+                    <li><button onclick="orderDeliverd('{{this._id}}')" class="btn btn-light ">Deliverd</button></li>
+                  </ul>
+                </div>
 
                 {{/ifCheck}}
 
+                 {{#ifCheck this.status "deliverd"}}
 
+                 <a href="#" class="btn btn-success">Deliverd</a>
+
+                {{/ifCheck}}
+
+                
+                 {{#ifCheck this.status "order-return-pending"}}
+
+                 <div class="dropdown">
+                  <button class="btn btn-secondary  dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Order Return
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    
+                    <li> <button onclick="cancelRetrun('{{this._id}}')" class="btn btn-light">Cancel Return</button> </li>
+                   
+                    <li><button onclick="acceptReturn('{{this._id}}')" class="btn btn-light "> Returned</button></li>
+                  </ul>
+                </div>
+
+                {{/ifCheck}}
+             
+              {{#ifCheck this.status "returned"}}
+            
+                 <a href="#" class="btn btn-danger">Returned</a>
+               
+               {{/ifCheck}}
+             
+             
+             
+             
               </td>
 
 
@@ -228,7 +328,7 @@
 
     swal({
       title: "Are you sure?",
-      text: "Do you want to cancel this user order?",
+      text: "is that product shipped??",
       icon: "success",
       buttons: true,
       dangerMode: true,
@@ -256,7 +356,7 @@
 
     swal({
       title: "Are you sure?",
-      text: "Do you want to cancel this user order?",
+      text: "is the product delivered??",
       icon: "success",
       buttons: true,
       dangerMode: true,
@@ -278,12 +378,61 @@
   }
 
 
+//cancelRetrun
 
+function cancelRetrun(orderId) {
+    console.log(orderId, "orderId of user")
 
+    swal({
+      title: "Are you sure?",
+      text: "do you want to cancel the return??",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
 
+        $.ajax({
+          url: '/admin/cancel-return/' + orderId,
+          type: 'get',
+          success: (response) => {
+            console.log(response)
 
+            location.reload();
+          }
+        })
+      }
+    })
 
+  }
 
+//accept return
+
+function acceptReturn(orderId) {
+    console.log(orderId, "orderId of user")
+
+    swal({
+      title: "Are you sure?",
+      text: "do you want to return the order??",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+
+        $.ajax({
+          url: '/admin/accept-return/'+ orderId,
+          type: 'get',
+          success: (response) => {
+            console.log(response)
+
+            location.reload();
+          }
+        })
+      }
+    })
+
+  }
 
 
 </script>

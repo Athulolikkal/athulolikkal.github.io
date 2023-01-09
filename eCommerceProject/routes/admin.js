@@ -7,6 +7,8 @@ const productHelpers = require('../helpers/producthelpers');
 const cloudinary = require('../utils/cloudinary')
 const multer = require('multer')
 const path = require('path');
+const { resolve } = require('path');
+const { Db } = require('mongodb');
 
 upload = multer({
   storage: multer.diskStorage({}),
@@ -36,11 +38,25 @@ router.get('/', isuserNotLoggedin, function (req, res, next) {
   }
 })
 
-router.get('/admindashboard', isadminLoggedIn, function (req, res) {
-  res.render('admindashboard', { admin: true });
+router.get('/admindashboard', isadminLoggedIn, async(req, res)=> {
+
+  
+  let totalUsers=await adminHelpers.totalUsers()
+  let totalDetails=await adminHelpers.totalDashboardView()
+  console.log(totalDetails,"totaldetailssssss");
+  let totalPaymentDetails=await adminHelpers.totalpaymentView()
+  console.log(totalPaymentDetails,"paymentdetails");
+  adminHelpers.totalAmountDeliverd().then((totalAmount)=>{
+  res.render('admindashboard', { admin: true,totalAmount,totalDetails,totalPaymentDetails,totalUsers});
+
+ }) 
 })
 
+// router.get('/admindashboard/:days',(req,res)=>{
+//   adminHelpers.dashboardView(req.params.days).then((response)=>{
 
+//   })
+// })
 
 
 
@@ -233,13 +249,26 @@ router.post('/addproducts', upload.fields([
   console.log(urls);
   // console.log(req.body);
   let product = req.body
-
+   console.log(product,'productssss')
   let cateName = await productHelpers.findCategory(product.category)
   product.categoryId = product.category
-
+  
   product.category = cateName.name
   //adding category name to product
 
+ if(cateName.categoryoffer){
+  product.categoryoffer=cateName.categoryoffer
+
+let discountAmount=Math.trunc((parseInt(product.price)*cateName.categoryoffer)/100);  
+product.offerprice=product.price-discountAmount
+console.log( product.categoryoffer,'catofferrrr');
+}
+ else{
+  product.categoryoffer=0
+ product.offerprice=parseInt(product.price) 
+console.log( product.categoryoffer,'catofferrrrziroooo');
+}
+ 
   productHelpers.addProduct(product, urls).then((response) => {
     console.log(response);
     res.redirect('/admin/adminproduct')
@@ -450,11 +479,118 @@ router.get('/shipping-userorder/:id', (req, res) => {
 
 router.get('/deliverd-userorder/:id', (req, res) => {
   orderId = req.params.id
+//  let deliverdDate=adminHelpers.deliverdDate
   adminHelpers.deliverdOrder(orderId).then((response) => {
     res.json({ status: true })
   })
 })
 
+router.get('/adminreport',async(req,res)=>{
+ 
+ totalAmount=await adminHelpers.totalAmountDeliverd()
+  await adminHelpers.viewDeliverdOrders().then((response)=>{
+    res.render('adminreport',{admin:true,response,totalAmount})
+
+  })
+})
+
+router.get('/adminoffer',async(req,res)=>{
+ 
+ let products= await productHelpers.productView()
+ console.log(products,'proooooo');
+ productHelpers.categoryView().then((category)=>{
+    console.log('categoryssss',category);
+     res.render('adminoffer',{admin:true,category,products})
+  })
+ 
+ 
+})
+
+
+
+router.get('/admincoupon',async(req,res)=>{
+let coupon=await productHelpers.couponView()
+ console.log(coupon,'couponlistttt');
+res.render('admincoupon',{admin:true,coupon})
+})
+
+router.post('/add-product-offer',async(req,res)=>{
+ console.log(req.body,'addproductOfferrrrrr');
+await productHelpers.addProductOffer(req.body)
+productHelpers.productOfferPrice(req.body).then((response)=>{
+  res.json(response)
+})
+})
+
+router.post('/add-category-offer',async(req,res)=>{
+  console.log(req.body,'cateOfferrrrrr');
+ await productHelpers.categoryOfferAdd(req.body)
+  await  productHelpers.addCategoryOffer(req.body)
+ productHelpers.cateOfferPrice(req.body).then((response)=>{
+  res.json(response)
+ })
+  
+ })
+
+router.get('/deletecategoryoffer/:id',async(req,res)=>{
+  console.log(req.params,"deletecategoryofferrr");
+await productHelpers.deleteCategoryOffer(req.params.id)
+productHelpers.changeCateOfferPrice(req.params.id).then((response)=>{
+  res.redirect('/admin/adminoffer')
+ })
+})
+
+
+router.get('/deleteproductoffer/:id',async(req,res)=>{
+  console.log(req.params,'productofferrrrr');
+await productHelpers.deleteProductOffer(req.params.id)
+productHelpers.changeProductOfferPrice(req.params.id).then((response)=>{
+  res.redirect('/admin/adminoffer')
+ })
+})
+
+
+router.post('/addcoupon',(req,res)=>{
+  console.log(req.body,"couponnnn");
+productHelpers.addCoupon(req.body).then((response)=>{
+  res.json(response)
+})
+})
+
+router.get('/deletecoupon/:id',(req,res)=>{
+  productHelpers.deleteCoupon(req.params.id).then((response)=>{
+    res.redirect('/admin/admincoupon')
+  })
+})
+
+router.get('/cancel-return/:id', (req, res) => {
+  orderId = req.params.id
+  adminHelpers.cancelReturn(orderId).then((response) => {
+    res.json({ status: true })
+  })
+})
+
+router.get('/accept-return/:id',async (req, res) => {
+  orderId = req.params.id
+
+   let orderDetails=await adminHelpers.retrunOrderDetails(orderId)
+ let user=orderDetails.userId
+ let returnAmount=parseInt(orderDetails.totalAmount) 
+ console.log(user,returnAmount,'user,returnamount')
+
+ let userDetails=await adminHelpers.returnUserDetails(user)
+ let currentWallet=parseInt(userDetails.wallet)
+ console.log(currentWallet,'userwallet')
+ let walletAmount=currentWallet+returnAmount
+ console.log(walletAmount,'actualUserWallet')
+
+ await adminHelpers.wallet(user,walletAmount)
+ 
+ adminHelpers.returnAccept(orderId).then((response) => {
+  console.log(response, " retruned")
+    res.json({ status: true })
+  })
+})
 
 
 

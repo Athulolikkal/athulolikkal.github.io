@@ -29,17 +29,60 @@
       
       <td>
 
-              {{#ifCheck this.status "cancelled"}} 
+              {{#ifCheck this.status "deliverd"}} 
+                      
+              <button onclick="orderReturn('{{this._id}}')" class="btn btn-primary ">return</button>          
+                     
        
-        {{!-- <button onclick="removeOrder('{{this._id}}')" class="btn btn-danger " >Remove</button> --}}
-         {{!-- <a href="#" class="btn btn-danger ">cancelled</a>      --}}
-            
-             {{else}}
-             <button onclick="orderCancel('{{this._id}}')" class="btn btn-warning " >Cancel</button>   
+                {{/ifCheck}}     
+
+              {{#ifCheck this.status "order-return-pending"}} 
+                      
+              <button  class="btn btn-danger ">return requested</button>          
+              {{/ifCheck}} 
+
+              {{#ifCheck this.status "returned"}} 
+                      
+              <button  class="btn btn-danger ">Order Returnd</button>          
+              {{/ifCheck}}  
+             
+
+             {{#ifCheck this.status "shipped"}}
+              <button onclick="orderCancel('{{this._id}}')" class="btn btn-warning " >Cancel</button>  
+              {{/ifCheck}}
+
+              {{#ifCheck this.status "placed"}}
+              <button onclick="orderCancel('{{this._id}}')" class="btn btn-warning " >Cancel</button>  
+              {{/ifCheck}} 
+
+              {{#ifCheck this.status "pending"}}
+              <button onclick="orderCancel('{{this._id}}')" class="btn btn-warning " >Cancel</button>  
+              {{/ifCheck}}
+
+
+              
+              
+              
+              
                
-           {{/ifCheck}}    
+               
+          
+          
+               
+               
+               
+             
+               
+               
+               
+               
                
                 <a href="/order-details/{{this._id}}" class="btn btn-success ">Details</a>
+        
+        
+        
+        
+        
         
          {{!-- <a href="/order-cancel/{{this._id}}" class="btn btn-warning ">cancel</a> --}}
         
@@ -105,6 +148,45 @@ swal({
         if (willDelete) {
 $.ajax({
   url:'/order-cancel/'+orderId,
+  type:'get',
+  success:(response)=>{
+       location.reload();
+  }
+})
+
+}
+})
+}
+
+//function orderReturn(orderId){
+  //console.log(orderId,'scriptorderiddd')
+ // $.ajax({
+   // url:'/order-return/'+orderId,
+   // type:'get',
+   // success:(response)=>{
+         //location.reload();
+  //  }
+  //})
+
+//}
+
+
+
+function orderReturn(orderId){
+console.log(orderId,'orderId is this')
+
+swal({
+      title: "Are you sure?",
+      text: "Do you want to return the order?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+
+.then((willDelete) => {
+        if (willDelete) {
+$.ajax({
+  url:'/order-return/'+orderId,
   type:'get',
   success:(response)=>{
        location.reload();
