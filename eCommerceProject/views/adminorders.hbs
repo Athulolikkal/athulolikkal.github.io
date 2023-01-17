@@ -114,10 +114,13 @@
 
 
       <div class="container-fluid p-2">
-        <table class="table  mt-5 ml-3" id="table_id">
+       
+      
+       
+        <table class="table   ml-3" id="table_id">
           <thead class="p-5 mt-5 ml-5">
             <tr>
-              <th class="text-primary" scope="col">Order Id</th>
+              {{!-- <th class="text-primary" scope="col">Order Id</th> --}}
               <th class="text-primary" scope="col">Name</th>
               <th class="text-primary" scope="col">Order Date</th>
               <th class="text-primary" scope="col">Price</th>
@@ -132,12 +135,12 @@
           <tbody>
             {{#each response}}
             <tr>
-              <td>{{this._id}}</td>
+              {{!-- <td>{{this._id}}</td> --}}
               <td>{{this.deliveryDetails.name}}</td>
               <td>{{this.displayDate}}</td>
               <td>{{this.totalAmount}}</td>
               <td>{{this.deliveryDetails.mobile}}</td>
-              <td>{{this.deliveryDetails.address}}</td>
+              <td>{{this.deliveryDetails.housename}}(ho),<br>{{this.deliveryDetails.streetAddress}},<br>{{this.deliveryDetails.townAddress}},<br>{{this.deliveryDetails.districAddress}},pin:&nbsp;{{this.deliveryDetails.pincode}}</td>
               <td>{{this.status}}</td>
               <td>{{this.paymentMethod}}</td>
 
@@ -252,8 +255,9 @@
                {{/ifCheck}}
              
              
+             <a href="/admin/userOderDetails/{{this._id}}" class="btn btn-success mt-2">Details</a>
              
-             
+              <hr>
               </td>
 
 
@@ -307,7 +311,7 @@
 
         $.ajax({
           url: '/admin/cancel-userorder/' + orderId,
-          type: 'get',
+          type: 'put',
           success: (response) => {
             console.log(response, "hloooosss")
 
@@ -337,7 +341,7 @@
 
         $.ajax({
           url: '/admin/shipping-userorder/' + orderId,
-          type: 'get',
+          type: 'put',
           success: (response) => {
             console.log(response)
 
@@ -365,7 +369,7 @@
 
         $.ajax({
           url: '/admin/deliverd-userorder/' + orderId,
-          type: 'get',
+          type: 'put',
           success: (response) => {
             console.log(response)
 
@@ -394,7 +398,7 @@ function cancelRetrun(orderId) {
 
         $.ajax({
           url: '/admin/cancel-return/' + orderId,
-          type: 'get',
+          type: 'put',
           success: (response) => {
             console.log(response)
 
@@ -422,7 +426,7 @@ function acceptReturn(orderId) {
 
         $.ajax({
           url: '/admin/accept-return/'+ orderId,
-          type: 'get',
+          type: 'put',
           success: (response) => {
             console.log(response)
 

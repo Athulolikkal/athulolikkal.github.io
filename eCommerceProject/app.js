@@ -6,8 +6,8 @@ var logger = require('morgan');
 var hbs = require("express-handlebars");
 require('dotenv').config();
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var indexRouter = require('./routes/user');
+// var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 var hbs=require('express-handlebars')
 // var fileUpload = require('express-fileupload');
@@ -53,12 +53,12 @@ db.connect((err)=>{
   })
 
 app.use('/', indexRouter);
-app.use('/user', usersRouter);
+// app.use('/user', usersRouter);
 app.use('/admin',adminRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+res.render('404error')
 });
 
 // error handler

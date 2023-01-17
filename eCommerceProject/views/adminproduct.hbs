@@ -119,6 +119,7 @@
      
       <th scope="col"> Name</th>
       <th scope="col">Description</th>
+      <th scope="col">Stock</th>
       <th scope="col">Price</th>
       <th scope="col">Category</th>
       <th scope="col">Image</th>
@@ -132,26 +133,25 @@
       
       <td>{{this.name}}</td>
      <td>{{this.description}}</td>
+    {{#if this.stock}}
+     <td>{{this.stock}}</td>
+    {{else}}
+    <td class="text-danger fw-bold">Stock Out</td>
+    {{/if}}
      <td>{{this.price}}</td>
      <td>{{this.category}}</td>
       <td><img style="width: 50px; height:50px" src="{{this.image.[0]}}" alt=""> </td>
             {{!-- C:\Users\ATHUL\OneDrive\Desktop\eCommerceProject\public\product-images\6397219e02d2517792b06025.jpg  --}}
       
-      <td>
+      <td >
 
-        <a href="/admin/editproducts/{{this._id}}" class="btn btn-primary ">edit</a>
+        <a href="/admin/editproducts/{{this._id}} " class="btn btn-primary ">edit</a>
 
         <a href="/admin/deleteproducts/{{this._id}}"  onclick="retrun alert('are you sure?')"
-          class="btn btn-danger">remove</a>
+          class="btn btn-danger mt-3">remove</a>
        
        
-          {{!-- <a href="/admin/unblockuser/{{this._id}}" class="btn btn-success ">Un-block</a> --}}
-       {{!-- {{#if this.status}} --}}
-        {{!-- <a href="/admin/blockuser/{{this._id}}" class="btn btn-warning blockuser " >block</a> --}}
-         {{!-- {{else}} --}}
-         
-         {{!-- <a href="/admin/blockuser/{{this._id}}" class="btn btn-success ">Un-block</a> --}}
-      {{!-- {{/if}} --}}
+          
       </td>
     </tr>
     {{/each}}

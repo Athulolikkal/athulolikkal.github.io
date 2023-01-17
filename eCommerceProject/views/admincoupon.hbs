@@ -222,6 +222,7 @@ $('#addCoupon').submit((e)=>{
         method:'post',
         data:$('#addCoupon').serialize(),
         success:(response)=>{
+           
             if(response.status){
                 location.reload()
             }

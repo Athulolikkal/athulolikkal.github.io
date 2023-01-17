@@ -37,16 +37,27 @@
 
         </div>
           
+     <div class="from-group">
+
+          <label>Quantity</label>
+          <input type="number" class="form-control" name="stock" required="">
+
+        </div>
     
-     <label for="">Choose the category:</label>
+    <div class="from-group mt-4">
+ <label for="">Choose the category:</label>
     
      <select name="category">
     {{#each category}}
     <option name="category" value="{{this.name}}">{{this.name}}</option>
      {{/each}}
   </select>
+
+    </div>
+    
+    
   
-         <div class="from-group">
+         <div class="from-group ">
 
           <label>Image</label>
         <img style="width: 50px; height:50px" src="{{product.image.[0]}}" alt="">

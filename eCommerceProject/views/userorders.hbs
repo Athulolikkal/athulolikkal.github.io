@@ -1,5 +1,5 @@
 
-<div class="container-fluid p-5">
+<div class="container-fluid p-5 mt-3">
 <table class="table  mt-5 ml-3" id="table_id">
   <thead class="p-5 mt-5 ml-5">
     <tr>
@@ -23,7 +23,7 @@
       <td>{{this.displayDate}}</td>
       <td>{{this.totalAmount}}</td>
      <td>{{this.deliveryDetails.mobile}}</td>
-     <td>{{this.deliveryDetails.address}}</td>
+     <td>{{this.deliveryDetails.streetAddress}},<br>{{this.deliveryDetails.townAddress}},<br>{{this.deliveryDetails.districAddress}},<br>{{this.deliveryDetails.streetAddress}},<br>pin:{{this.deliveryDetails.pincode}}</td>
       <td>{{this.status}}</td>
       <td>{{this.paymentMethod}}</td>
       
@@ -38,12 +38,12 @@
 
               {{#ifCheck this.status "order-return-pending"}} 
                       
-              <button  class="btn btn-danger ">return requested</button>          
+              <button  class="btn btn-danger mb-2">On return</button>          
               {{/ifCheck}} 
 
               {{#ifCheck this.status "returned"}} 
                       
-              <button  class="btn btn-danger ">Order Returnd</button>          
+              <button  class="btn btn-danger mb-2">Order Returnd</button>          
               {{/ifCheck}}  
              
 
@@ -64,20 +64,7 @@
               
               
               
-               
-               
-          
-          
-               
-               
-               
-             
-               
-               
-               
-               
-               
-                <a href="/order-details/{{this._id}}" class="btn btn-success ">Details</a>
+            <a href="/order-details/{{this._id}}" class="btn btn-success ">Details</a>
         
         
         

@@ -1,3 +1,8 @@
+ {{!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
+
+
+
 <div class="container-fluid admin_sidebar ">
     <div class="wrapper">
         <div class="side_bar">
@@ -120,9 +125,21 @@
                     value="Download as Pdf">Download PDF</button>
                 <button type="button" class="btn btn-primary rounded-pill" onclick="export_data()"
                     value="Export to excel">Download as Excel</button>
+           
+           {{!-- <div>
+        <form>
+        <div> <input type="date" name="startdate" id="startdate"></div>
+         
+          <div><input type="date" name="enddate" id="enddate" ></div>
+
+        </form>
+       </div> --}}
+           
+           {{!-- <input class="ms-1" type="text" name="daterange" value="01/01/2022 - 12/01/2023" /> --}}
+           
             </div>
 
-
+         
 
             <div id="container_content">
                 <table class="table table-striped">
@@ -216,6 +233,12 @@
         });
         XLSX.writeFile(fp, 'test.xlsx');
     }
+
+
+
+
+
+
 
 
 
