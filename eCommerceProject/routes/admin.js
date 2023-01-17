@@ -573,7 +573,7 @@ router.get('/cancel-return/:id', (req, res) => {
 router.get('/accept-return/:id',async (req, res) => {
   orderId = req.params.id
 
-   let orderDetails=await adminHelpers.retrunOrderDetails(orderId)
+  let orderDetails=await adminHelpers.retrunOrderDetails(orderId)
  let user=orderDetails.userId
  let returnAmount=parseInt(orderDetails.totalAmount) 
  console.log(user,returnAmount,'user,returnamount')
